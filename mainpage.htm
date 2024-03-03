@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="style.css">
+
+	</head>
+	<body>
+		<div class="hero">
+			<h1>Plant Data!</h1>
+			<
+		</div>
+		<div id="container">
+			<img id="recent-plant" src="camera/photos/latest.jpg" width="100%"/>
+		</div>
+		<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript">
+			let data = []
+			
+			$(document).ready(function() {
+				$.ajax({
+					type: "GET",
+					url: "sensor-log/log.csv",
+					dataType: "text",
+					success: function(data) {processData(data)}
+				});
+				
+				function processData(data) {
+					let lines = data.trim().split('\n');
+					let lastLine = lines[lines.length-1].split(',');
+					let outputTarget = document.getElementById("output");
+					
+					lastLine.forEach(function(value, i) {
+						let h2 = document.createElement('h2');
+						
+						switch(i) {
+							case 0:
+								h2.innerHTML = `This is the ${value} data.`;
+								break;
+							default:
+								h2.innerHTML = `This is the ${value} data ${i}`
+						}
+						
+						outputTarget.appendChild(h2);
+					});
+				}
+			})			
+		</script>
+	</body>
+</html>
